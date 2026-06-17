@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" fill="none">
+  <!-- Icon: geometric flow/nest shape -->
+  <g>
+    <!-- Hexagon-like nest -->
+    <rect x="2" y="8" width="24" height="24" rx="6" fill="url(#grad1)"/>
+    <!-- Flow lines inside -->
+    <path d="M8 16 L18 16" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
+    <path d="M8 20 L20 20" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+    <path d="M8 24 L15 24" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+    <!-- Arrow -->
+    <path d="M20 18 L22 20 L20 22" stroke="#22D3EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="34" y="26.5" font-family="-apple-system, 'Inter', 'Segoe UI', sans-serif" font-weight="700" font-size="17" fill="#1E293B" letter-spacing="-0.5">Flow<tspan fill="#7C3AED">Nest</tspan></text>
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#4F46E5"/>
+    </linearGradient>
+  </defs>
+</svg>
