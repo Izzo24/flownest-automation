@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>方案價格 — FlowNest 自動化工作流平台</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+.pricing-hero{padding:120px 0 80px;text-align:center;background:linear-gradient(135deg,#0f0a1e 0%,#1a0f3a 50%,#0d1b3e 100%)}
+.pricing-hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;background:linear-gradient(135deg,#a78bfa,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem}
+.pricing-hero p{font-size:1.2rem;color:rgba(255,255,255,0.7);max-width:600px;margin:0 auto 2rem}
+.billing-toggle{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:3rem}
+.billing-toggle span{color:rgba(255,255,255,0.7);font-size:.95rem}
+.toggle-btn{width:52px;height:28px;background:linear-gradient(135deg,#7c3aed,#4f46e5);border-radius:14px;position:relative;cursor:pointer;border:none}
+.toggle-btn::after{content:'';width:22px;height:22px;background:#fff;border-radius:50%;position:absolute;top:3px;right:3px;transition:.3s}
+.badge-save{background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;font-size:.75rem;font-weight:700;padding:.2rem .6rem;border-radius:20px}
+.plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;max-width:1100px;margin:0 auto;padding:0 2rem 80px}
+.plan-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:2.5rem;position:relative;transition:.3s}
+.plan-card:hover{transform:translateY(-4px);border-color:rgba(167,139,250,0.3)}
+.plan-card.popular{border-color:rgba(167,139,250,0.5);background:rgba(124,58,237,0.08)}
+.plan-card.popular::before{content:'最受歡迎';position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;font-size:.75rem;font-weight:700;padding:.3rem 1.2rem;border-radius:20px;white-space:nowrap}
+.plan-name{font-size:1.1rem;font-weight:600;color:rgba(255,255,255,0.7);margin-bottom:.5rem}
+.plan-price{font-size:3rem;font-weight:800;color:#fff;line-height:1}
+.plan-price sup{font-size:1.2rem;vertical-align:top;margin-top:.8rem;display:inline-block;color:rgba(255,255,255,0.6)}
+.plan-price span{font-size:1rem;font-weight:400;color:rgba(255,255,255,0.5)}
+.plan-desc{color:rgba(255,255,255,0.55);font-size:.9rem;margin:1rem 0 1.5rem;line-height:1.6}
+.plan-features{list-style:none;padding:0;margin:0 0 2rem}
+.plan-features li{display:flex;align-items:center;gap:.7rem;color:rgba(255,255,255,0.8);font-size:.9rem;padding:.45rem 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.plan-features li:last-child{border-bottom:none}
+.plan-features li::before{content:'✓';width:18px;height:18px;background:linear-gradient(135deg,#7c3aed,#4f46e5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0}
+.plan-features li.disabled{color:rgba(255,255,255,0.3)}
+.plan-features li.disabled::before{background:rgba(255,255,255,0.1);content:'×'}
+.plan-cta{display:block;width:100%;text-align:center;padding:.85rem;border-radius:12px;font-weight:600;font-size:.95rem;text-decoration:none;transition:.3s}
+.plan-cta.primary{background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff}
+.plan-cta.secondary{border:1px solid rgba(167,139,250,0.4);color:#a78bfa}
+.plan-cta:hover{opacity:.85;transform:translateY(-1px)}
+.faq-section{padding:80px 0;background:rgba(255,255,255,0.02)}
+.faq-section h2{text-align:center;font-size:2rem;font-weight:700;color:#fff;margin-bottom:3rem}
+.faq-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(460px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto;padding:0 2rem}
+.faq-item{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:1.5rem}
+.faq-item h3{font-size:1rem;font-weight:600;color:#e2d9f3;margin-bottom:.6rem}
+.faq-item p{color:rgba(255,255,255,0.6);font-size:.9rem;line-height:1.7}
+.compare-section{padding:80px 2rem;max-width:1000px;margin:0 auto}
+.compare-section h2{text-align:center;font-size:2rem;font-weight:700;color:#fff;margin-bottom:3rem}
+.compare-table{width:100%;border-collapse:collapse}
+.compare-table th,.compare-table td{padding:1rem 1.2rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06);font-size:.9rem}
+.compare-table th{color:rgba(255,255,255,0.5);font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em}
+.compare-table th:first-child,.compare-table td:first-child{text-align:left;color:rgba(255,255,255,0.8)}
+.compare-table td{color:rgba(255,255,255,0.6)}
+.compare-table .check{color:#a78bfa;font-size:1.1rem}
+.compare-table .popular-col{background:rgba(124,58,237,0.08)}
+</style>
+</head>
+<body>
+<nav class="main-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="logos/flownest-logo.svg" alt="FlowNest">
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="features.html">功能</a></li>
+      <li><a href="pricing.html" class="active">方案</a></li>
+      <li><a href="about.html">關於我們</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="btn-ghost">登入</a>
+      <a href="#" class="btn-primary">免費試用</a>
+    </div>
+    <button class="nav-toggle" aria-label="選單">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<section class="pricing-hero">
+  <div class="container">
+    <h1>透明定價，按需成長</h1>
+    <p>從個人創業者到企業團隊，FlowNest 提供靈活彈性的方案，讓每個規模的組織都能享受自動化的力量</p>
+    <div class="billing-toggle">
+      <span>月繳</span>
+      <button class="toggle-btn"></button>
+      <span>年繳 <span class="badge-save">省 20%</span></span>
+    </div>
+  </div>
+</section>
+
+<div class="plans-grid">
+  <!-- Starter -->
+  <div class="plan-card reveal">
+    <div class="plan-name">入門版</div>
+    <div class="plan-price"><sup>$</sup>0<span>/月</span></div>
+    <p class="plan-desc">適合個人使用者探索工作流自動化，永久免費無時限</p>
+    <ul class="plan-features">
+      <li>每月 1,000 次任務執行</li>
+      <li>5 個工作流程</li>
+      <li>50+ 基礎整合服務</li>
+      <li>單人使用</li>
+      <li>社群支援</li>
+      <li class="disabled">進階資料轉換</li>
+      <li class="disabled">自訂邏輯條件</li>
+      <li class="disabled">API 存取</li>
+    </ul>
+    <a href="#" class="plan-cta secondary">立即開始</a>
+  </div>
+
+  <!-- Pro -->
+  <div class="plan-card popular reveal">
+    <div class="plan-name">專業版</div>
+    <div class="plan-price"><sup>$</sup>29<span>/月</span></div>
+    <p class="plan-desc">最受中小企業與自由工作者青睞，完整功能一次到位</p>
+    <ul class="plan-features">
+      <li>每月 25,000 次任務執行</li>
+      <li>無限工作流程</li>
+      <li>350+ 全部整合服務</li>
+      <li>最多 5 位團隊成員</li>
+      <li>進階資料轉換</li>
+      <li>自訂邏輯條件</li>
+      <li>API 存取</li>
+      <li>電子郵件優先支援</li>
+    </ul>
+    <a href="#" class="plan-cta primary">14 天免費試用</a>
+  </div>
+
+  <!-- Enterprise -->
+  <div class="plan-card reveal">
+    <div class="plan-name">企業版</div>
+    <div class="plan-price"><sup></sup>客製<span></span></div>
+    <p class="plan-desc">為大型企業量身定制，提供 SLA 保障與專屬技術顧問服務</p>
+    <ul class="plan-features">
+      <li>無限任務執行次數</li>
+      <li>無限工作流程</li>
+      <li>所有整合 + 私有部署</li>
+      <li>無限團隊成員</li>
+      <li>SSO 單一登入</li>
+      <li>進階安全審計日誌</li>
+      <li>專屬帳號經理</li>
+      <li>99.9% SLA 保障</li>
+    </ul>
+    <a href="#" class="plan-cta secondary">聯繫業務</a>
+  </div>
+</div>
+
+<!-- Compare Table -->
+<section class="compare-section reveal">
+  <h2>功能完整對比</h2>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>功能項目</th>
+        <th>入門版</th>
+        <th class="popular-col">專業版</th>
+        <th>企業版</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>工作流程數量</td><td>5 個</td><td class="popular-col">無限</td><td>無限</td></tr>
+      <tr><td>月執行次數</td><td>1,000</td><td class="popular-col">25,000</td><td>無限</td></tr>
+      <tr><td>整合服務</td><td>50+</td><td class="popular-col">350+</td><td>350+ 自訂</td></tr>
+      <tr><td>團隊成員</td><td>1 人</td><td class="popular-col">5 人</td><td>無限</td></tr>
+      <tr><td>進階資料轉換</td><td>—</td><td class="check popular-col">✓</td><td class="check">✓</td></tr>
+      <tr><td>API 存取</td><td>—</td><td class="check popular-col">✓</td><td class="check">✓</td></tr>
+      <tr><td>自訂邏輯</td><td>—</td><td class="check popular-col">✓</td><td class="check">✓</td></tr>
+      <tr><td>SSO 登入</td><td>—</td><td class="popular-col">—</td><td class="check">✓</td></tr>
+      <tr><td>私有部署</td><td>—</td><td class="popular-col">—</td><td class="check">✓</td></tr>
+      <tr><td>SLA 保障</td><td>—</td><td class="popular-col">99.5%</td><td>99.9%</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <h2>常見問題</h2>
+  <div class="faq-grid">
+    <div class="faq-item reveal">
+      <h3>免費試用需要信用卡嗎？</h3>
+      <p>不需要。14 天免費試用無需任何付款資訊，到期後才選擇是否升級，完全沒有隱藏費用。</p>
+    </div>
+    <div class="faq-item reveal">
+      <h3>任務執行次數超出怎麼辦？</h3>
+      <p>超出後工作流程會暫停，不會產生額外收費。您可以隨時升級方案或購買額外執行量。</p>
+    </div>
+    <div class="faq-item reveal">
+      <h3>可以隨時取消訂閱嗎？</h3>
+      <p>可以。您可以在帳戶設定頁面隨時取消，不需要提前通知，當前計費週期結束前仍可使用所有功能。</p>
+    </div>
+    <div class="faq-item reveal">
+      <h3>資料安全性如何保障？</h3>
+      <p>所有資料傳輸採用 TLS 1.3 加密，靜態資料使用 AES-256 加密儲存，並定期進行第三方安全審計。</p>
+    </div>
+    <div class="faq-item reveal">
+      <h3>支援哪些付款方式？</h3>
+      <p>支援主流信用卡（Visa、Mastercard、American Express）%�� PayPal，企業用戶可申請發票付款。</p>
+    </div>
+    <div class="faq-item reveal">
+      <h3>企業版如何報價？</h3>
+      <p>企業版採客製定價，根據用量、成員數與功能需求量身報價。填寫洽談表單後，業務顧問將在一個工作日內與您聯繫。</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="logos/flownest-logo-white.svg" alt="FlowNest">
+        <p>企業級工作流程自動化平台。連接你所有的工具，讓重複工作自動完成，讓團隊專注在真正重要的事。</p>
+      </div>
+      <div class="footer-col">
+        <h4>產品</h4>
+        <ul>
+          <li><a href="features.html">功能介紹</a></li>
+          <li><a href="pricing.html">方案價格</a></li>
+          <li><a href="#">整合服務</a></li>
+          <li><a href="#">更新日誌</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>公司</h4>
+        <ul>
+          <li><a href="about.html">關於我們</a></li>
+          <li><a href="#">部落格</a></li>
+          <li><a href="#">媒體資源</a></li>
+          <li><a href="#">聯繫我們</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>支援</h4>
+        <ul>
+          <li><a href="#">說明文件</a></li>
+          <li><a href="#">API 參考</a></li>
+          <li><a href="#">系統狀態</a></li>
+          <li><a href="#">社群論壇</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 FlowNest. All rights reserved.</p>
+      <div style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35);text-align:center;">本站由 <a href="https://bridgeseqlab.vercel.app" target="_blank" style="color:rgba(167,139,250,0.7);text-decoration:none;">橋序創研</a> 製作</div>
+    </div>
+  </div>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>
